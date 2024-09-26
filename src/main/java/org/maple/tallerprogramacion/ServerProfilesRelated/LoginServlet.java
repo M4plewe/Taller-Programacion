@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         Connection conn = null;
@@ -30,9 +30,9 @@ public class LoginServlet extends HttpServlet {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                String sql = "SELECT id, username, picture, is_verified, email FROM users WHERE username = ? AND password = ?";
+                String sql = "SELECT id, username, picture, is_verified, email FROM users WHERE email = ? AND password = ?";
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, username);
+                pstmt.setString(1, email);
                 pstmt.setString(2, password);
 
                 rs = pstmt.executeQuery();
@@ -51,13 +51,13 @@ public class LoginServlet extends HttpServlet {
 
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", userId);
-                    session.setAttribute("username", username);
-                    session.setAttribute("email", rs.getString("email"));
+                    session.setAttribute("username", rs.getString("username"));
+                    session.setAttribute("email", email);
                     session.setAttribute("profileImage", profileImage);
 
                     response.sendRedirect("menuusuarios.jsp");
                 } else {
-                    response.sendRedirect("login.jsp?error=Invalid username or password");
+                    response.sendRedirect("login.jsp?error=Invalid email or password");
                 }
             }
         } catch (SQLException e) {

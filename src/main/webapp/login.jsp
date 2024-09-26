@@ -61,8 +61,8 @@
 <body>
 <h1>Iniciar Sesión</h1>
 <form action="login-servlet" method="post">
-    <label for="username">Nombre de Usuario o Correo Electrónico:</label>
-    <input type="text" id="username" name="username" required><br>
+    <label for="email">Correo Electrónico:</label>
+    <input type="text" id="email" name="email" required><br>
     <label for="password">Contraseña:</label>
     <input type="password" id="password" name="password" required><br>
     <input type="submit" value="Iniciar Sesión">
