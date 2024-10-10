@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+    <rule>
+        <from>^/new_login$</from>
+        <to>/new_login.jsp</to>
+    </rule>
+    <rule>
+        <from>^/new_forgotpassword$</from>
+        <to>/new_forgotpassword.jsp</to>
+    </rule>
+    <rule>
+        <from>^/new_register$</from>
+        <to>/new_register.jsp</to>
+    </rule>
+    <rule>
+        <from>^/new_verifyemail$</from>
+        <to>/new_verifyemail.jsp</to>
+    </rule>
+    <rule>
+        <from>^/new_uploadpost</from>
+        <to>/new_uploadpost.jsp</to>
+    </rule>
+    <rule>
+        <from>^/settings</from>
+        <to>/new_settings.jsp</to>
+    </rule>
+    <rule>
+        <from>^/browser</from>
+        <to>/new_search.jsp?</to>
+    </rule>
+    <!-- Add more rules as needed -->
+0
+</urlrewrite>
