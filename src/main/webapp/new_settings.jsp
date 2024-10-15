@@ -127,7 +127,16 @@
 
         .profile-image {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image img.centered-image {
+            width: 150px; /* Adjust the size as needed */
+            height: 150px; /* Adjust the size as needed */
+            border-radius: 50%;
+            margin-bottom: 10px;
         }
 
         .profile-image img {
@@ -344,7 +353,7 @@
             <h2>Change Profile Image</h2>
             <form action="UpdateProfileImageServlet" method="post" enctype="multipart/form-data">
                 <div class="profile-image">
-                    <img src="/resources/<%= currentProfileImage %>" alt="Current Profile Image">
+                    <img src="/resources/<%= currentProfileImage %>" alt="Current Profile Image" class="centered-image">
                     <input type="file" id="profileImage" name="profileImage" accept="image/*" required>
                 </div>
                 <button type="submit">Update Profile Image</button>

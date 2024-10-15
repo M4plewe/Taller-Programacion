@@ -1,4 +1,4 @@
-package org.maple.tallerprogramacion.ServerProfilesRelated;
+package org.maple.tallerprogramacion.ServerUpdateRelated;
 
 import java.io.IOException;
 import java.sql.Connection;

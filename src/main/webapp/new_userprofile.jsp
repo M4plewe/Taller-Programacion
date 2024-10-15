@@ -105,6 +105,72 @@
             border: 1px solid #ddd;
         }
 
+        .post {
+            background-color: #fff;
+            border: 1px solid #eaeaea;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .post-content {
+            flex-grow: 1;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .post-controls {
+            text-align: center;
+        }
+
+        .vote-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vote-button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 5px;
+            margin: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .vote-button.upvote {
+            color: orange;
+        }
+
+        .vote-button.downvote {
+            color: gray;
+        }
+
+        .post-comments {
+            font-size: 12px;
+            color: #0079d3;
+            cursor: pointer;
+        }
+
+        .post img {
+            max-width: 120px;
+            margin-right: 15px;
+        }
+
         .post-section {
             background-color: white;
             padding: 20px;
@@ -222,16 +288,19 @@
             <img src="/resources/<%= currentProfileImage %>" alt="Profile Image"
                  style="width: 40px; height: 40px; border-radius: 50%; margin-right: 15px;">
         </div>
-        <a href="javascript:void(0);" onclick="toggleDropdown()" style="font-size: 24px; cursor: pointer; margin-left: 10px;">
+        <a href="javascript:void(0);" onclick="toggleDropdown()"
+           style="font-size: 24px; cursor: pointer; margin-left: 10px;">
             &#9776;
         </a>
         <div class="user-dropdown" id="userDropdown">
             <a href="/user/<%= currentUsername %>">
                 <div style="display: flex; align-items: center;">
-                    <img src="/resources/<%= currentProfileImage %>" alt="Profile Image" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
+                    <img src="/resources/<%= currentProfileImage %>" alt="Profile Image"
+                         style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
                     Ver perfil:
                 </div>
-                <div style="display: block; font-size: 12px; color: #666;"> u/<%= currentUsername %></div>
+                <div style="display: block; font-size: 12px; color: #666;"> u/<%= currentUsername %>
+                </div>
             </a>
             <a href="/logout">
                 <span class="icon">🚪</span> Cerrar sesión
@@ -256,10 +325,11 @@
             User user = (User) request.getAttribute("user");
             if (user != null) {
         %>
-        <img src="/resources/<%= user.getAvatar() %>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;">
+        <img src="/resources/<%= user.getAvatar() %>" alt="Profile Image"
+             style="width: 100px; height: 100px; border-radius: 50%;">
 
-        <h2>u/<%= user.getUsername() %></h2>
-        <div class="karma">Karma: 0</div>
+        <h2>u/<%= user.getUsername() %>
+        </h2>
         <div class="post-info">
             Email: <%= user.getEmail() %> <br>
             Bio: <%= user.getBio() %> <br>
@@ -277,25 +347,96 @@
         %>
     </div>
 
+
     <div class="post-section">
+
         <div class="filters">
             <div>
-                <button>Today</button>
-                <button>Week</button>
-                <button>Month</button>
-                <button>All</button>
-            </div>
-            <div>
-                <button>Hot</button>
-                <button>New</button>
-                <button>Top</button>
+                <button onclick="setFilter('today')">Today</button>
+                <button onclick="setFilter('week')">Week</button>
+                <button onclick="setFilter('month')">Month</button>
+                <button onclick="setFilter('all')">All</button>
             </div>
         </div>
-        <div class="no-posts">
+
+        <div id="postList">
+            <!-- Posts will load here -->
+        </div>
+        <div class="no-posts" style="display: none;">
             No posts with this filter were found, Be the first to add one!
         </div>
     </div>
 </div>
+
+<script>
+    let username = '<%= user.getUsername() %>'; // Reemplaza con el nombre de usuario actual
+    let limit = 10;
+    let offset = 0;
+    let timeFilter = 'week'; // Puede ser 'today', 'week', 'month', 'all'
+
+    async function loadUserPosts() {
+        try {
+            const response = await fetch("/load-user-posts?username=" + encodeURIComponent(username) + "&limit=" + limit + "&offset=" + offset + "&timeFilter=" + timeFilter);
+            if (!response.ok) {
+                throw new Error('Error loading user posts');
+            }
+            const posts = await response.json();
+            const postList = document.getElementById('postList'); // Cambia a 'postList'
+            const noPostsMessage = document.querySelector('.no-posts');
+
+            if (postList) {
+                if (posts.length === 0) {
+                    if (noPostsMessage) {
+                        noPostsMessage.style.display = 'block';
+                    }
+                } else {
+                    if (noPostsMessage) {
+                        noPostsMessage.style.display = 'none';
+                    }
+                    let postItems = '';
+                    posts.forEach(function (aPost) {
+                        postItems += '<div class="post">' +
+                            '<img src="https://via.placeholder.com/120" alt="Post Image">' +
+                            '<div class="post-content">' +
+                            '<div class="post-title">' + aPost.title + '</div>' +
+                            '<div class="post-meta">By <a href="/user/' + aPost.username + '">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '">/' + aPost.forumName + '</a> | ' + aPost.comments + ' Comments | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
+                            '<div class="post-comments">' + aPost.comments + ' Comments</div>' +
+                            '</div>' +
+                            '<div class="post-controls">' +
+                            '<div class="vote-buttons">' +
+                            '<button class="vote-button upvote">▲ ' + aPost.upvotes + '</button>' +
+                            '<button class="vote-button downvote">▼</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    });
+                    postList.innerHTML += postItems; // Agrega posts a 'postList'
+                    offset += limit; // Actualiza el offset para la siguiente carga
+                }
+            } else {
+                console.error('Post list element not found.');
+            }
+        } catch (error) {
+            console.error(error);
+            const postSection = document.querySelector('.post-section');
+            if (postSection) {
+                postSection.innerHTML = '<p>Error loading posts.</p>';
+            }
+        }
+    }
+
+    function setFilter(filter) {
+        timeFilter = filter; // Actualiza el filtro de tiempo
+        offset = 0; // Reinicia el offset
+        document.getElementById('postList').innerHTML = ''; // Limpia solo los posts actuales
+        loadUserPosts(); // Recarga los posts con el filtro seleccionado
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadUserPosts();
+    });
+</script>
 
 <script>
     function toggleDropdown() {
@@ -304,9 +445,9 @@
     }
 
     // Close dropdown if clicked outside
-    window.onclick = function(event) {
-        if (!event.target.matches('.header-user a') && !event.target.closest('#userDropdown')) {
-            const dropdown = document.getElementById('userDropdown');
+    window.onclick = function (event) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown && !event.target.matches('.header-user a') && !event.target.closest('#userDropdown')) {
             if (dropdown.style.display === 'block') {
                 dropdown.style.display = 'none';
             }

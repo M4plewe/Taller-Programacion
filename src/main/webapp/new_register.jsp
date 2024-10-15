@@ -148,10 +148,21 @@
 
         function validateForm() {
             var password = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Check password length
             if (password.length < 8) {
                 document.getElementById("error-message").innerText = "Password must be at least 8 characters long.";
                 return false;
             }
+
+            // Check email format
+            if (!emailPattern.test(email)) {
+                document.getElementById("error-message").innerText = "Please enter a valid email address.";
+                return false;
+            }
+
             return true;
         }
 

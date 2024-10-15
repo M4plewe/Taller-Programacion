@@ -120,7 +120,19 @@
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
+            cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
         }
+
+        .post-link {
+            display: block;
+            text-decoration: none;
+            color: inherit; /* Ensures it keeps the original text color */
+        }
+
+        .post-link a {
+            text-decoration: underline; /* Only underlines internal links like usernames or forums */
+        }
+
 
         .post-content {
             flex-grow: 1;
@@ -344,7 +356,7 @@
     </ul>
 
     <h2>Followed Forums</h2>
-    <ul>
+    <ul id="followedForums">
         <!-- Followed forums will be listed here -->
     </ul>
 
@@ -406,17 +418,24 @@
             // Accumulate post items
             let postItems = '';
             posts.forEach(function (aPost) {
-                postItems += '<div class="post">' +
+                let content = aPost.content;
+                if (content.length > 200) {
+                    content = content.substring(0, 200) + '...';
+                }
+
+                // Use a div for the clickable area and handle redirection with JS
+                postItems += '<div class="post" onclick="redirectToPost(' + aPost.id + ')">' +
                     '<img src="https://via.placeholder.com/120" alt="Post Image">' +
                     '<div class="post-content">' +
                     '<div class="post-title">' + aPost.title + '</div>' +
-                    '<div class="post-meta">By <a href="/user/' + aPost.username + '">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '">/' + aPost.forumName + '</a> | ' + aPost.comments + ' Comments | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
+                    '<div class="post-meta">By <a href="/user/' + aPost.username + '" onclick="event.stopPropagation()">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '" onclick="event.stopPropagation()">/' + aPost.forumName + '</a> | ' + aPost.comments + ' Comments | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
                     '<div class="post-comments">' + aPost.comments + ' Comments</div>' +
+                    '<p>' + content + '</p>' +
                     '</div>' +
                     '<div class="post-controls">' +
                     '<div class="vote-buttons">' +
-                    '<button class="vote-button upvote">▲ ' + aPost.upvotes + '</button>' +
-                    '<button class="vote-button downvote">▼</button>' +
+                    '<button class="vote-button upvote" onclick="event.stopPropagation()">▲ ' + aPost.upvotes + '</button>' +
+                    '<button class="vote-button downvote" onclick="event.stopPropagation()">▼</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -443,6 +462,11 @@
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
             loadPosts(); // Load more posts when reaching near the bottom
         }
+    }
+
+    // Redirection function
+    function redirectToPost(id) {
+        window.location.href = 'http://maplehugs.ddns.net/post/' + id;
     }
 
     // Load initial set of posts
@@ -495,6 +519,33 @@
             }
         }
     };
+</script>
+
+<script>
+    async function loadFollowedForums() {
+        try {
+            const response = await fetch('/load-following-forums');
+            if (!response.ok) {
+                throw new Error('Error loading followed forums');
+            }
+            const followedForums = await response.json();
+            const followedForumsList = document.getElementById('followedForums');
+
+            followedForumsList.innerHTML = ''; // Clear the list before adding new items
+
+            followedForums.forEach(function (forum) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = '<a href="/forum/' + forum + '">' + forum + '</a>';
+                followedForumsList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadFollowedForums(); // Load followed forums on initial page load
+    });
 </script>
 
 </body>

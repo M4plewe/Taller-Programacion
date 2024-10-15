@@ -140,13 +140,12 @@
     <div class="login-form">
         <h2>Welcome Back!</h2>
         <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="your user! <3" required>
+        <input type="text" id="email" name="email" placeholder="your email! <3" required>
 
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="**********" required>
 
         <button type="submit">Log in</button>
-
 
         <div class="forgot-signup">
             <a href="new_forgotpassword">Forgot Password</a>

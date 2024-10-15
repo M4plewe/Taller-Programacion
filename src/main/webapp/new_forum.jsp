@@ -401,10 +401,25 @@
                 <div><%= forum.getPostCount() %> posts</div>
             </div>
         </div>
+        <% if (session.getAttribute("currentUsername") != null) { %>
         <div class="forum-buttons">
-            <button class="leave-btn">Leave</button>
+            <% String subscriptionStatus = (String) request.getAttribute("subscriptionStatus"); %>
+            <% if ("following".equals(subscriptionStatus)) { %>
+            <form action="/subscription" method="post" style="display: inline;">
+                <input type="hidden" name="forumId" value="<%= forum.getId() %>">
+                <input type="hidden" name="action" value="unfollow">
+                <button type="submit" class="leave-btn">Unfollow</button>
+            </form>
+            <% } else { %>
+            <form action="/subscription" method="post" style="display: inline;">
+                <input type="hidden" name="forumId" value="<%= forum.getId() %>">
+                <input type="hidden" name="action" value="follow">
+                <button type="submit" class="leave-btn">Follow</button>
+            </form>
+            <% } %>
             <button class="more-btn">More</button>
         </div>
+        <% } %>
         <%
         } else {
         %>

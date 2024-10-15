@@ -1,4 +1,4 @@
-package org.maple.tallerprogramacion.ServerEmailRelated;
+package org.maple.tallerprogramacion.ServerUpdateRelated;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 import org.maple.tallerprogramacion.ServerConnectionTests.MySQLDBConnection;
+import org.maple.tallerprogramacion.ServerEmailRelated.SendChangeEmailVerification;
 
 @WebServlet(name = "UpdateEmailServlet", value = "/UpdateEmailServlet")
 public class UpdateEmailServlet extends HttpServlet {
@@ -22,6 +23,7 @@ public class UpdateEmailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int currentUserId = (int) session.getAttribute("currentUserId");
         String newEmail = request.getParameter("newEmail");
+        String currentEmail = request.getParameter("currentEmail");
 
         if (newEmail == null || newEmail.isEmpty()) {
             response.sendRedirect("new_settings.jsp?error=Invalid email address");

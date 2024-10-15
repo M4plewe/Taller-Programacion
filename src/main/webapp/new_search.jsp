@@ -10,60 +10,109 @@
 
         /* Forum Styles */
         .forum {
-            background-color: #ffffff;
+            background-color: #fff;
             border: 1px solid #eaeaea;
             margin-bottom: 20px;
             padding: 15px;
             border-radius: 8px;
             display: flex;
-            flex-direction: column; /* Stack children vertically */
-            max-width: 100%; /* Ensure full width */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+            justify-content: space-between;
+            cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
         }
 
-        .forum-title {
-            font-size: 18px; /* Font size to match */
+        .forum img {
+            width: 120px; /* Adjust the width here if needed */
+            height: 120px; /* Adjust the height here if needed */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .forum-content {
+            flex-grow: 1;
+        }
+
+        .forum-name {
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #ff4500; /* Highlighted title color */
         }
 
-        .forum-description {
-            font-size: 14px; /* Consistent font size */
+        .forum-meta {
+            font-size: 14px;
             color: #777;
-            margin-bottom: 10px; /* Space between description and content */
+            margin-bottom: 10px;
         }
+
+        .forum-controls {
+            display: flex;
+            align-items: center;
+        }
+
 
         /* User Styles */
         .user {
-            background-color: #f9f9f9; /* Light background for user section */
+            background-color: #fff;
             border: 1px solid #eaeaea;
-            border-radius: 8px;
+            margin-bottom: 20px;
             padding: 15px;
+            border-radius: 8px;
             display: flex;
-            align-items: center; /* Center the content vertically */
-            margin-bottom: 20px; /* Space between users */
-            max-width: 100%; /* Full width */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+            justify-content: flex-start;
+            align-items: center;
+            cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
         }
 
-        .user img {
-            width: 50px; /* Smaller size for user image */
-            height: 50px;
+        .user-profile {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .user-profile img {
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            border-radius: 50%; /* Circular profile image */
-            margin-right: 15px; /* Space between image and text */
+            border-radius: 50%;
         }
 
-        .user-name {
-            font-size: 16px; /* Slightly larger font for name */
+        .user-content {
+            flex-grow: 1;
+        }
+
+        .user-username {
+            font-size: 18px;
             font-weight: bold;
-            color: #333;
+            margin-bottom: 5px;
         }
 
-        .user-status {
-            font-size: 12px; /* Smaller font for status */
+        .user-username a {
+            text-decoration: none;
+            color: #0073e6;
+        }
+
+        .user-meta {
+            font-size: 14px;
             color: #777;
+            margin-bottom: 10px;
+        }
+
+        .user-controls {
+            margin-left: auto;
+        }
+
+        .message-button {
+            background-color: #0073e6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message-button:hover {
+            background-color: #005bb5;
         }
 
         /* Post Styles */
@@ -75,7 +124,17 @@
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Align items to the start for a better layout */
+            cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+        }
+
+        .post-link {
+            display: block;
+            text-decoration: none;
+            color: inherit; /* Ensures it keeps the original text color */
+        }
+
+        .post-link a {
+            text-decoration: underline; /* Only underlines internal links like usernames or forums */
         }
 
         .post img {
@@ -249,7 +308,6 @@
         }
 
 
-
         /* User Dropdown Styles */
         .user-dropdown {
             display: none;
@@ -328,7 +386,6 @@
             max-width: 100%; /* Ensure full width */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
         }
-
 
 
         .forum-description {
@@ -484,7 +541,7 @@
             try {
                 const searchQuery = document.getElementById('searchQuery').value;
 
-                // Reset offset to 0 for new searches
+                // Reset offset and remove previous results if starting a new search
                 if (offset === 0) {
                     document.getElementById('resultList').innerHTML = ''; // Clear previous results
                 }
@@ -500,87 +557,124 @@
                 const resultList = document.getElementById('resultList');
 
                 if (data.results.length === 0) {
-                    // If no results returned, we can stop loading more
+                    // Stop loading more if no results returned
                     window.removeEventListener('scroll', handleScroll);
-                    return; // No more results to load
+                    return;
                 }
 
                 // Accumulate result items
                 let resultItems = '';
                 data.results.forEach(function (item) {
-                    if (data.type === 'posts') {
-                        resultItems += '<div class="post">' +
+                    if (currentTypeFilter === 'posts') {
+                        // Post template
+                        resultItems += '<div class="post" onclick="redirectToPost(' + item.id + ')">' +
                             '<img src="https://via.placeholder.com/120" alt="Post Image">' +
                             '<div class="post-content">' +
                             '<div class="post-title">' + item.title + '</div>' +
-                            '<div class="post-meta">By <a href="/user/' + item.username + '">u/' + item.username + '</a> | in <a href="/forum/' + item.forumName + '">/' + item.forumName + '</a> | ' + new Date(item.createdAt).toLocaleDateString() + '</div>' +
+                            '<div class="post-meta">By <a href="/user/' + item.username + '" onclick="event.stopPropagation()">u/' + item.username + '</a> | in <a href="/forum/' + item.forumName + '" onclick="event.stopPropagation()">/' + item.forumName + '</a> | ' + item.comments + ' Comments | ' + new Date(item.createdAt).toLocaleDateString() + '</div>' +
                             '<div class="post-comments">' + item.comments + ' Comments</div>' +
                             '</div>' +
                             '<div class="post-controls">' +
                             '<div class="vote-buttons">' +
-                            '<button class="vote-button upvote">▲ ' + item.upvotes + '</button>' +
-                            '<button class="vote-button downvote">▼</button>' +
+                            '<button class="vote-button upvote" onclick="event.stopPropagation()">▲ ' + item.upvotes + '</button>' +
+                            '<button class="vote-button downvote" onclick="event.stopPropagation()">▼</button>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
-                    } else if (data.type === 'forums') {
-                        resultItems += '<div class="forum">' +
-                            '<div class="forum-name"><a href="/forum/' + item.name + '">' + item.name + '</a></div>' +
-                            '<div class="forum-description">' + item.description + '</div>' +
-                            '<div class="forum-meta">Created by <a href="/user/' + item.creatorUsername + '">u/' + item.creatorUsername + '</a> | ' + item.postCount + ' Posts</div>' + // Additional info for forums
-                            '<div class="forum-controls">' +
-                            '<button class="join-button">Join</button>' + // Example button for forum actions
-                            '</div>' +
-                            '</div>';
+                    } else if (currentTypeFilter === 'forums') {
+                        // Forum template (similar to posts layout)
+                        resultItems += '<div class="post" onclick="redirectToForum(\'' + item.name + '\')">' +
+                            '<img src="https://via.placeholder.com/120" alt="Forum Image">' +
 
-                    } else if (data.type === 'users') {
-                        resultItems += '<div class="user">' +
-                            '<div class="user-profile">' +
-                            '<img src="/resources/' + item.avatar + '" alt="User Profile Image" style="border-radius: 50%;">' + // Profile image
-                            '<div class="user-username"><a href="/user/' + item.username + '">' + item.username + '</a></div>' +
-                            '<div class="user-email">' + item.email + '</div>' +
-                            '<div class="user-meta">' + item.postCount + ' Posts | Joined ' + item.registrationDate + '</div>' + // Additional info for users
+                            // Forum content container similar to post-content
+                            '<div class="post-content">' +
+                            // Forum title (similar to post title)
+                            '<div class="post-title">' + item.name + '</div>' +
+
+                            // Forum meta information (created by user and number of posts)
+                            '<div class="post-meta">Created by <a href="/user/' + item.creatorUsername + '" onclick="event.stopPropagation()">u/' + item.creatorUsername + '</a> | ' + item.postCount + ' Posts</div>' +
+
+                            // Forum controls (join button)
+                            '<div class="post-controls">' +
+                            '<div class="join-button-container">' +
+                            '<button class="join-button" onclick="event.stopPropagation()">Join</button>' +
                             '</div>' +
-                            '<div class="user-controls">' +
-                            '<button class="message-button">Message</button>' + // Example button for user actions
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    } else if (currentTypeFilter === 'users') {
+                        // User template (similar to posts layout)
+                        resultItems += '<div class="post" onclick="redirectToUser(\'' + item.username + '\')">' +
+                            '<img src="/resources/' + item.avatar + '" alt="User Profile Image">' +
+
+                            // User content container similar to post-content
+                            '<div class="post-content">' +
+                            // User username (similar to post title)
+                            '<div class="post-title">' +
+                            '<a href="/user/' + item.username + '">' + item.username + '</a>' +
+                            '</div>' +
+
+                            // User meta information (post count and registration date)
+                            '<div class="post-meta">' +
+                            item.postCount + ' Posts | Joined ' + item.registrationDate +
+                            '</div>' +
+
+                            // User controls (message button)
+                            '<div class="post-controls">' +
+                            '<button class="message-button" onclick="event.stopPropagation()">Message</button>' +
+                            '</div>' +
                             '</div>' +
                             '</div>';
                     }
                 });
 
-                // Insert all accumulated results into the DOM at once
+                // Insert accumulated results into the DOM
                 resultList.innerHTML += resultItems;
-                offset += limit; // Update the offset for the next load
+                offset += limit; // Update offset for next load
             } catch (error) {
                 console.error(error);
                 document.getElementById('resultList').innerHTML = '<p>Error loading search results.</p>';
             }
         }
 
-        // Function to set the current type filter and reload results
+        // Function to set the type filter and reload results
         function setTypeFilter(filter) {
-            currentTypeFilter = filter; // Update current type filter
-            offset = 0; // Reset offset
-            loadSearchResults(); // Reload results with the selected filter
+            currentTypeFilter = filter;
+            offset = 0; // Reset offset for new search
+            loadSearchResults();
         }
 
+        // Function to set the time filter and reload results
         function setTimeFilter(filter) {
-            currentTimeFilter = filter; // Update current time filter
-            offset = 0; // Reset offset
-            loadSearchResults(); // Reload results with the selected filter
+            currentTimeFilter = filter;
+            offset = 0; // Reset offset for new search
+            loadSearchResults();
         }
 
         // Scroll handler to load more results when at the bottom of the page
         function handleScroll() {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-                loadSearchResults(); // Load more results when reaching near the bottom
+                loadSearchResults(); // Load more results when near the bottom
             }
         }
 
-        // Load initial set of results
+        // Redirection function
+        function redirectToPost(id) {
+            window.location.href = 'http://maplehugs.ddns.net/post/' + id;
+        }
+
+        function redirectToUser(username) {
+            window.location.href = 'http://maplehugs.ddns.net/user/' + username;
+        }
+
+        function redirectToForum(name) {
+            window.location.href = 'http://maplehugs.ddns.net/forum/' + name;
+        }
+
+        // Load initial set of results on page load
         document.addEventListener('DOMContentLoaded', () => {
-            loadSearchResults(); // Load results on initial page load
-            window.addEventListener('scroll', handleScroll); // Add scroll event listener
+            loadSearchResults(); // Load search results on initial load
+            window.addEventListener('scroll', handleScroll); // Add scroll listener
         });
     </script>
 
