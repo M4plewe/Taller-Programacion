@@ -30,8 +30,8 @@ GMAIL_APP_PASSWORD=
 ### Base de Datos
 
 La aplicación utiliza **MySQL** como sistema de gestión de bases de datos. Asegúrate de tener una instancia de MySQL en ejecución y de crear una base de datos para la aplicación.
-
-> **Nota:** Asegúrate de que las credenciales de la base de datos sean correctas y estén actualizadas en el archivo `.env`.
+> [!NOTE]
+> Asegúrate de que las credenciales de la base de datos sean correctas y estén actualizadas en el archivo `.env`.
 
 ### Configuración de Tomcat
 
@@ -39,7 +39,8 @@ La aplicación utiliza **MySQL** como sistema de gestión de bases de datos. Ase
 2. Copia el archivo WAR generado por Maven (`target/tu-proyecto.war`) en el directorio `webapps` de Tomcat.
 3. Inicia el servidor Tomcat.
 
-> **Tip:** Puedes configurar Tomcat para que se inicie automáticamente al arrancar el sistema operativo.
+> [!TIP]
+> Puedes configurar Tomcat para que se inicie automáticamente al arrancar el sistema operativo.
 
 ## Compilación y Ejecución
 
@@ -57,7 +58,8 @@ mvn clean install
 2. Despliega el archivo WAR en Tomcat.
 3. Accede a la aplicación en tu navegador web: `http://localhost:8080/tu-proyecto`.
 
-> **Importante:** Verifica que el puerto `8080` esté libre y no esté siendo utilizado por otra aplicación.
+> [!IMPORTANT]
+> Verifica que el puerto `8080` esté libre y no esté siendo utilizado por otra aplicación.
 
 ## Estructura del Proyecto
 
@@ -83,13 +85,15 @@ src/
 - **ForumServlet**: Maneja las solicitudes relacionadas con los foros.
 - **PostsServlet**: Maneja las solicitudes relacionadas con las publicaciones.
 
-> **Advertencia:** Asegúrate de que los endpoints estén protegidos y que solo los usuarios autenticados puedan acceder a ellos.
+> [!WARNING]
+> Asegúrate de que los endpoints estén protegidos y que solo los usuarios autenticados puedan acceder a ellos.
 
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, abre un **issue** o un **pull request** para discutir cualquier cambio que desees realizar.
 
-> **Precaución:** Antes de enviar un pull request, asegúrate de que tu código sigue las guías de estilo del proyecto y que todas las pruebas pasan correctamente.
+> [!CAUTION]
+> Antes de enviar un pull request, asegúrate de que tu código sigue las guías de estilo del proyecto y que todas las pruebas pasan correctamente.
 
 ## Imágenes del Proyecto
 
