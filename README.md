@@ -1,6 +1,4 @@
-Aquí tienes el README mejorado con formato y estructura adecuada para tu proyecto. He agregado los elementos de estilo necesarios para que sea visualmente más atractivo y claro.
 
-```markdown
 # Proyecto Taller de Programación
 
 ## Descripción
@@ -101,13 +99,3 @@ A continuación, se muestran algunas capturas de pantalla del proyecto:
 ![Página del Foro](https://github.com/user-attachments/assets/8ac3da78-deef-4809-bae8-7a700b608ec1)
 ![Vista de Perfil](https://github.com/user-attachments/assets/e39f37d7-d670-429d-b5c2-3c0cbbe3b1a7)
 ![Formulario de Publicación](https://github.com/user-attachments/assets/050babf4-0a9b-4ebf-9a77-e1aab13c185a)
-```
-
-### Cambios realizados:
-
-- Se ha utilizado formato de bloque de código (`bash`, `dotenv`) para los comandos y variables de entorno.
-- Se han agregado citas y advertencias utilizando `>` para resaltar puntos importantes.
-- Se han corregido y estructurado las secciones para mejorar la legibilidad y el flujo de información.
-- Se han mejorado los títulos y subtítulos para seguir una jerarquía clara.
-  
-Este formato es mucho más amigable y comprensible para los usuarios y desarrolladores que vayan a interactuar con tu proyecto.
