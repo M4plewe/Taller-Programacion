@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threadadit - Main Page</title>
+    <title>Fund Me - Main Page</title>
     <style>
 
         /* Forum Styles */
@@ -439,7 +439,7 @@
 
 <div class="header">
     <div class="header-logo">
-        <a href="/" style="text-decoration: none; color: #ff4500;">Threadadit</a>
+        <a href="/" style="text-decoration: none; color: #ff4500;">Fund Me</a>
     </div>
     <div class="header-search-container">
         <div class="header-search">
@@ -568,7 +568,6 @@
                     if (currentTypeFilter === 'posts') {
                         // Post template
                         resultItems += '<div class="post" onclick="redirectToPost(' + item.id + ')">' +
-                            '<img src="https://via.placeholder.com/120" alt="Post Image">' +
                             '<div class="post-content">' +
                             '<div class="post-title">' + item.title + '</div>' +
                             '<div class="post-meta">By <a href="/user/' + item.username + '" onclick="event.stopPropagation()">u/' + item.username + '</a> | in <a href="/forum/' + item.forumName + '" onclick="event.stopPropagation()">/' + item.forumName + '</a> | ' + item.comments + ' Comments | ' + new Date(item.createdAt).toLocaleDateString() + '</div>' +
@@ -584,7 +583,6 @@
                     } else if (currentTypeFilter === 'forums') {
                         // Forum template (similar to posts layout)
                         resultItems += '<div class="post" onclick="redirectToForum(\'' + item.name + '\')">' +
-                            '<img src="https://via.placeholder.com/120" alt="Forum Image">' +
 
                             // Forum content container similar to post-content
                             '<div class="post-content">' +
@@ -660,15 +658,15 @@
 
         // Redirection function
         function redirectToPost(id) {
-            window.location.href = 'http://maplehugs.ddns.net/post/' + id;
+            window.location.href = '/post/' + id;
         }
 
         function redirectToUser(username) {
-            window.location.href = 'http://maplehugs.ddns.net/user/' + username;
+            window.location.href = '/user/' + username;
         }
 
         function redirectToForum(name) {
-            window.location.href = 'http://maplehugs.ddns.net/forum/' + name;
+            window.location.href = '/forum/' + name;
         }
 
         // Load initial set of results on page load

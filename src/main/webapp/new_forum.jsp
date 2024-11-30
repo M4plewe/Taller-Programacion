@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threadadit - Forum Page</title>
+    <title>Fund Me - Forum Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -172,6 +172,7 @@
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
+            cursor: pointer;
         }
 
         .post img {
@@ -327,7 +328,7 @@
 
 <div class="header">
     <div class="header-logo">
-        <a href="/" style="text-decoration: none; color: #ff4500;">Threadadit</a>
+        <a href="/" style="text-decoration: none; color: #ff4500;">Fund Me</a>
     </div>
     <div class="header-search-container">
         <form action="/browser" method="get">
@@ -417,7 +418,6 @@
                 <button type="submit" class="leave-btn">Follow</button>
             </form>
             <% } %>
-            <button class="more-btn">More</button>
         </div>
         <% } %>
         <%
@@ -477,8 +477,7 @@
 
             let postItems = '';
             posts.forEach(function (aPost) {
-                postItems += '<div class="post">' +
-                    '<img src="https://via.placeholder.com/120" alt="Post Image">' +
+                postItems += '<div class="post" onclick="redirectToPost(' + aPost.id + ')">' +
                     '<div class="post-content">' +
                     '<div class="post-title">' + aPost.title + '</div>' +
                     '<div class="post-meta">By <a href="/user/' + aPost.username + '">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '">/' + aPost.forumName + '</a> | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
@@ -505,6 +504,10 @@
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
             loadPosts(); // Cargar más posts al llegar al final de la página
         }
+    }
+
+    function redirectToPost(id) {
+        window.location.href = '/post/' + id;
     }
 
     document.addEventListener('DOMContentLoaded', () => {

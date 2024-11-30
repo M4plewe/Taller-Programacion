@@ -28,6 +28,13 @@
         <servlet-name>ForumServlet</servlet-name>
         <url-pattern>/forum/*</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>PostsServlet</servlet-name>
+        <servlet-class>org.maple.tallerprogramacion.ServerUtils.PostsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostsServlet</servlet-name>
+        <url-pattern>/post/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>

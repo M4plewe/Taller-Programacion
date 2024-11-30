@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Threadadit - Main Page</title>
+  <title>Fund Me - Main Page</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -192,7 +192,7 @@
 
 <div class="header">
   <div class="header-logo">
-    <a href="/" style="text-decoration: none; color: #ff4500;">Threadadit</a>
+    <a href="/" style="text-decoration: none; color: #ff4500;">Fund Me</a>
   </div>
   <div class="header-search-container">
     <div class="header-search">

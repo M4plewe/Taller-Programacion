@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threadadit - User Page</title>
+    <title>Fund Me - User Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -113,6 +113,7 @@
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
+            cursor: pointer;
         }
 
         .post-content {
@@ -268,7 +269,7 @@
 
 <div class="header">
     <div class="header-logo">
-        <a href="/" style="text-decoration: none; color: #ff4500;">Threadadit</a>
+        <a href="/" style="text-decoration: none; color: #ff4500;">Fund Me</a>
     </div>
     <div class="header-search-container">
         <form action="/browser" method="get">
@@ -335,9 +336,6 @@
             Bio: <%= user.getBio() %> <br>
             Joined: <%= user.getRegistrationDate() %>
         </div>
-        <select>
-            <option value="action">Choose an action</option>
-        </select>
         <%
         } else {
         %>
@@ -395,8 +393,7 @@
                     }
                     let postItems = '';
                     posts.forEach(function (aPost) {
-                        postItems += '<div class="post">' +
-                            '<img src="https://via.placeholder.com/120" alt="Post Image">' +
+                        postItems += '<div class="post" onclick="redirectToPost(' + aPost.id + ')">' +
                             '<div class="post-content">' +
                             '<div class="post-title">' + aPost.title + '</div>' +
                             '<div class="post-meta">By <a href="/user/' + aPost.username + '">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '">/' + aPost.forumName + '</a> | ' + aPost.comments + ' Comments | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
@@ -432,6 +429,9 @@
         loadUserPosts(); // Recarga los posts con el filtro seleccionado
     }
 
+    function redirectToPost(id) {
+        window.location.href = '/post/' + id;
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         loadUserPosts();

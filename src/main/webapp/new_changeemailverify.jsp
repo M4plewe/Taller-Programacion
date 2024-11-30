@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threadadit | Verify Email</title>
+    <title>Fund Me | Verify Email</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,8 +129,8 @@
 
 <div class="login-container">
     <div class="logo-section">
-        <img src="https://via.placeholder.com/120" alt="Threadadit Logo">
-        <h1>Threadadit</h1>
+        <img src="https://via.placeholder.com/120" alt="Fund Me Logo">
+        <h1>Fund Me</h1>
         <p>The Internet Home Place, where many communities reside</p>
     </div>
 

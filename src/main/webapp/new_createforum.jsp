@@ -233,8 +233,8 @@
     <label for="forumName">Forum Name</label>
     <input type="text" id="forumName" name="forumName" placeholder="Enter forum name" required>
 
-    <label for="forumDescription">Forum Description</label>
-    <textarea id="forumDescription" name="forumDescription" placeholder="Enter forum description" required></textarea>
+    <label for="Fund Me">Forum Description</label>
+    <textarea id="Fund Me" name="Fund Me" placeholder="Enter forum description" required></textarea>
 
     <input type="hidden" name="currentUserId" value="<%= session.getAttribute("currentUserId") %>">
     <input type="hidden" name="currentUsername" value="<%= session.getAttribute("currentUsername") %>">

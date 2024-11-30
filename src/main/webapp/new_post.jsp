@@ -1,3 +1,4 @@
+<%@ page import="org.maple.tallerprogramacion.ServerGeneralClassesToMakeStuffWork.Post" %>
 <%@ page session="true" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -5,7 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threadadit - Main Page</title>
+
+    <title>Fund Me - Main Page</title>
+
+    <meta name="description" content="FundMe is a community-driven platform where users can share and discuss various topics.">
+    <meta name="keywords" content="FundMe, forums, discussions, community">
+    <meta name="author" content="Maple">
+    <link rel="canonical" href="http://maplehugs.ddns.net/">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -288,6 +296,222 @@
             cursor: pointer;
             font-size: 14px;
         }
+        .container {
+            max-width: 800px;
+            margin: 150px auto 50px; /* Adjusted margin-top to match the height of the header */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .post-content {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .post-controls {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .vote-buttons button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .vote-buttons button:hover {
+            background-color: #ddd;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #0079d3;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .comment-box {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .comment-submit {
+            background: #0079D3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .comment-submit:hover {
+            background: #005fa3;
+        }
+
+        .comment {
+            border-left: 2px solid #ccc;
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #787C7E;
+        }
+
+        .username {
+            color: #1A1A1B;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .comment-content {
+            color: #1A1A1B;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 12px;
+            color: #878A8C;
+            font-size: 12px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: #878A8C;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .action-button:hover {
+            color: #1A1A1B;
+        }
+
+        .vote-count {
+            margin: 0 4px;
+        }
+
+        .nested {
+            margin-left: 20px;
+        }
+
+
+
+        .comment-box {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .comment-submit {
+            background: #0079D3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .comment-submit:hover {
+            background: #005fa3;
+        }
+
+        .comment {
+            border-left: 2px solid #ccc;
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #787C7E;
+        }
+
+        .username {
+            color: #1A1A1B;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .comment-content {
+            color: #1A1A1B;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 12px;
+            color: #878A8C;
+            font-size: 12px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: #878A8C;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .action-button:hover {
+            color: #1A1A1B;
+        }
+
+        .vote-count {
+            margin: 0 4px;
+        }
+
+        .nested {
+            margin-left: 20px;
+        }
 
     </style>
 </head>
@@ -295,7 +519,7 @@
 
 <div class="header">
     <div class="header-logo">
-        <a href="/" style="text-decoration: none; color: #ff4500;">Threadadit</a>
+        <a href="/" style="text-decoration: none; color: #ff4500;">Fund Me</a>
     </div>
     <div class="header-search-container">
         <div class="header-search">
@@ -371,110 +595,92 @@
     </ul>
 </div>
 
-<div class="content">
-    <div>
-        <div class="post-section">
-            <div class="filters">
-                <div>
-                    <button onclick="setFilter('today')">Today</button>
-                    <button onclick="setFilter('week')">Week</button>
-                    <button onclick="setFilter('month')">Month</button>
-                    <button onclick="setFilter('all')">All</button>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <%-- Display post details --%>
+    <%
+        Post post = (Post) request.getAttribute("post");
+        if (post != null) {
+    %>
+    <div class="post-title"><%= post.getTitle() %></div>
+    <div class="post-meta">
+        By <a href="/user/<%= post.getUsername() %>">u/<%= post.getUsername() %></a> |
+        in <a href="/forum/<%= post.getForumName() %>">/<%= post.getForumName() %></a> |
+        Posted on <%= post.getCreatedAt() %>
     </div>
-    <div id="postList">
-        <!-- Posts will load here -->
-        <p>Cargando posts...</p>
+    <div class="post-content">
+        <%= post.getContent() %>
+    </div>
+    <% } else { %>
+    <div class="post-content">No post found for the given ID.</div>
+    <% } %>
+
+        <% if (session.getAttribute("currentUserId") != null) { %>
+        <form action="/AddCommentServlet" method="post" style="display: inline;">
+            <textarea name="content" class="comment-box" placeholder="What are your thoughts?"></textarea>
+            <input type="hidden" name="user_id" value="<%= session.getAttribute("currentUserId") %>">
+            <input type="hidden" name="post_id" value="<%= post.getId() %>">
+            <input type="hidden" name="parent_id" value="0"> <!-- Adjust as needed -->
+            <input type="hidden" name="has_parent" value="false"> <!-- Adjust as needed -->
+            <button type="submit" class="comment-submit">Comment</button>
+        </form>
+        <% } %>
+
+    <div class="comments-section" id="comments">
+        <!-- Comments will be inserted here -->
     </div>
 </div>
 
 <script>
-    let offset = 0; // Start at 0
-    const limit = 20; // Number of posts to load each time
-    let currentFilter = 'all'; // Default filter
+    let postId = '<%= post.getId() %>'; // Replace with the current post ID
 
-    async function loadPosts() {
+    async function loadComments() {
         try {
-            const response = await fetch("/load-posts?limit=" + limit + "&offset=" + offset + "&timeFilter=" + currentFilter);
+            const response = await fetch("/load-comments?post_id=" + encodeURIComponent(postId));
             if (!response.ok) {
-                throw new Error('Error al cargar los posts: ' + response.status);
+                throw new Error('Error loading comments');
             }
-            const posts = await response.json();
-            const postList = document.getElementById('postList');
+            const comments = await response.json();
+            const commentsSection = document.getElementById('comments');
+            commentsSection.innerHTML = ''; // Clear existing comments
 
-            // Clear loading message if it's the first load
-            if (offset === 0) {
-                postList.innerHTML = ''; // Clear loading message
+            for (let i = 0; i < comments.length; i++) {
+                commentsSection.innerHTML += createCommentHTML(comments[i], 0);
             }
-
-            if (posts.length === 0) {
-                // If no posts returned, we can stop loading more
-                window.removeEventListener('scroll', handleScroll);
-                return; // No more posts to load
-            }
-
-            // Accumulate post items
-            let postItems = '';
-            posts.forEach(function (aPost) {
-                let content = aPost.content;
-                if (content.length > 200) {
-                    content = content.substring(0, 200) + '...';
-                }
-
-                // Use a div for the clickable area and handle redirection with JS
-                postItems += '<div class="post" onclick="redirectToPost(' + aPost.id + ')">' +
-                    '<div class="post-content">' +
-                    '<div class="post-title">' + aPost.title + '</div>' +
-                    '<div class="post-meta">By <a href="/user/' + aPost.username + '" onclick="event.stopPropagation()">u/' + aPost.username + '</a> | in <a href="/forum/' + aPost.forumName + '" onclick="event.stopPropagation()">/' + aPost.forumName + '</a> | ' + aPost.comments + ' Comments | ' + new Date(aPost.createdAt).toLocaleDateString() + '</div>' +
-                    '<div class="post-comments">' + aPost.comments + ' Comments</div>' +
-                    '<p>' + content + '</p>' +
-                    '</div>' +
-                    '<div class="post-controls">' +
-                    '<div class="vote-buttons">' +
-                    '<button class="vote-button upvote" onclick="event.stopPropagation()">▲ ' + aPost.upvotes + '</button>' +
-                    '<button class="vote-button downvote" onclick="event.stopPropagation()">▼</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
-            });
-
-            // Insert all accumulated posts into the DOM at once
-            postList.innerHTML += postItems;
-            offset += limit; // Update the offset for the next load
         } catch (error) {
             console.error(error);
-            document.getElementById('postList').innerHTML = '<p>Error al cargar los posts.</p>';
         }
     }
 
-    // Function to set the current filter and reload posts
-    function setFilter(filter) {
-        currentFilter = filter; // Update current filter
-        offset = 0; // Reset offset
-        loadPosts(); // Reload posts with the selected filter
+    function createCommentHTML(comment, level) {
+        return `
+            <div class="comment ` + (level > 0 ? 'nested' : '') + `" data-id="` + comment.id + `">
+                <div class="comment-header">
+                    <span class="username">` + comment.username + `</span>
+                    <span class="timestamp">` + formatTime(comment.createdAt) + `</span>
+                </div>
+                <div class="comment-content">` + comment.content + `</div>
+                <div class="comment-actions">
+                    <button class="action-button vote-up">
+                        ▲
+                        <span class="vote-count">` + comment.votes + `</span>
+                        ▼
+                    </button>
+
+                </div>
+                ` + (comment.replies ? comment.replies.map(reply => createCommentHTML(reply, level + 1)).join('') : '') + `
+            </div>
+        `;
     }
 
-    // Scroll handler to load more posts when at the bottom of the page
-    function handleScroll() {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-            loadPosts(); // Load more posts when reaching near the bottom
-        }
+    function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString();
     }
 
-    // Redirection function
-    function redirectToPost(id) {
-        window.location.href = '/post/' + id;
-    }
-
-    // Load initial set of posts
     document.addEventListener('DOMContentLoaded', () => {
-        loadPosts(); // Load posts on initial page load
-        window.addEventListener('scroll', handleScroll); // Add scroll event listener
+        loadComments(); // Load comments on initial page load
     });
 </script>
-
 
 <script>
     async function loadThreads() {

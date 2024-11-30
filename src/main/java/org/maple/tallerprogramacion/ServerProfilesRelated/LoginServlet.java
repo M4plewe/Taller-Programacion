@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("currentProfileImage", profileImage);
                     session.setAttribute("currentGender", gender);
 
-                    response.sendRedirect("http://maplehugs.ddns.net/");
+                    response.sendRedirect("/");
                 } else {
                     response.sendRedirect("new_login.jsp?error=Invalid email or password");
                 }

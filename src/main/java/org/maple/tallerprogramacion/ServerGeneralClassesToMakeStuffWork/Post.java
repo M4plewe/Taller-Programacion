@@ -108,4 +108,61 @@ public class Post {
 
         return post;
     }
+
+    public static Post getPostInfoFromDatabase(int postId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Post post = null;
+
+        try {
+            MySQLDBConnection dbConnection = new MySQLDBConnection();
+            conn = dbConnection.getConnection();
+
+            if (conn != null) {
+                String sql = "SELECT p.id, p.user_id, p.forum_id, p.title, p.content, p.created_at, u.username, f.name AS forum_name " +
+                        "FROM posts p " +
+                        "JOIN users u ON p.user_id = u.id " +
+                        "JOIN forums f ON p.forum_id = f.id " +
+                        "WHERE p.id = ?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, postId);
+
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    int userId = rs.getInt("user_id");
+                    int forumId = rs.getInt("forum_id");
+                    String title = rs.getString("title");
+                    String content = rs.getString("content");
+                    String createdAt = rs.getString("created_at");
+                    String username = rs.getString("username");
+                    String forumName = rs.getString("forum_name");
+
+                    post = new Post(id, username, forumName, title, content, createdAt, userId, forumId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null && !conn.isClosed()) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return post;
+    }
+
+    public int getUpvotes() {
+        return 0;
+    }
+
+    public int getDownvotes() {
+        return 0;
+    }
+
 }
